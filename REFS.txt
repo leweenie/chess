@@ -1,1 +1,2 @@
 https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces
+add square color change on click (i.e, green, etc.)
