@@ -1,23 +1,25 @@
 CXX      = g++
-CXXFLAGS = -Wall -Wextra -std=c++20
-LDLIBS   = -lSDL3 
+CXXFLAGS = -Wall -Wextra -std=c++17
+LDLIBS   = -lSDL3
 
-SRCS   = window.cpp
-OBJS   = $(SRCS:.cpp=.o)
-TARGET = window
+BUILDDIR = build
+SRCS     = window.cpp
+OBJS     = $(SRCS:%.cpp=$(BUILDDIR)/%.o)
+TARGET   = window
 
-all: $(TARGET)
+all: $(BUILDDIR)/$(TARGET)
 
-$(TARGET): $(OBJS)
+$(BUILDDIR)/$(TARGET): $(OBJS)
 	$(CXX) $(OBJS) -o $@ $(LDLIBS)
 
-%.o: %.cpp
+$(BUILDDIR)/%.o: %.cpp
+	mkdir -p $(BUILDDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-run: $(TARGET)
-	./$(TARGET)
+run: all
+	./$(BUILDDIR)/$(TARGET)
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -rf $(BUILDDIR)
 
 .PHONY: all run clean
