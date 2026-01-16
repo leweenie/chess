@@ -1,25 +1,30 @@
-CXX      = g++
-CXXFLAGS = -Wall -Wextra -std=c++17
-LDLIBS   = -lSDL3
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -O2
+LDFLAGS = -lSDL3 -lSDL3_image
 
-BUILDDIR = build
-SRCS     = window.cpp
-OBJS     = $(SRCS:%.cpp=$(BUILDDIR)/%.o)
-TARGET   = window
+SRC_DIR = src
+BUILD_DIR = build
+ASSETS_DIR = assets
 
-all: $(BUILDDIR)/$(TARGET)
+TARGET = $(BUILD_DIR)/chess
+SOURCES = $(SRC_DIR)/window.cpp
+OBJECTS = $(BUILD_DIR)/window.o
 
-$(BUILDDIR)/$(TARGET): $(OBJS)
-	$(CXX) $(OBJS) -o $@ $(LDLIBS)
+all: $(BUILD_DIR) $(TARGET)
 
-$(BUILDDIR)/%.o: %.cpp
-	mkdir -p $(BUILDDIR)
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
+$(TARGET): $(OBJECTS)
+	$(CXX) $(OBJECTS) -o $(TARGET) $(LDFLAGS)
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-run: all
-	./$(BUILDDIR)/$(TARGET)
+run: $(TARGET)
+	./$(TARGET)
 
 clean:
-	rm -rf $(BUILDDIR)
+	rm -rf $(BUILD_DIR)
 
 .PHONY: all run clean
