@@ -15,4 +15,6 @@ enum Square {
 // clang-format on
 
 Square stringToSquare(const std::string& square);
-bool isValidSquare(const std::string& square);
+bool isSquareOccupied(Square square);
+bool canSquareTake(Square square);
+bool isTakeSquareOccupied(Square square);
